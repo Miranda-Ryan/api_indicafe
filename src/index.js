@@ -17,7 +17,7 @@ app.use(express.urlencoded({ limit: "1mb", extended: true }));
 
 const PORT = process.env.PORT;
 const DATABASE = process.env.DATABASE;
-const PREFIX = process.env.PREFIX;
+const PREFIX = `/${process.env.PREFIX}`;
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Hello World" });
