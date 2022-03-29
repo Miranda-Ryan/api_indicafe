@@ -1,6 +1,7 @@
 const Dish = require("../models/dish");
 const { dishSchema } = require("../validators/schema-validator");
 const createError = require("http-errors");
+const mongoose = require("mongoose");
 
 const IMG_TYPES = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
 
@@ -99,6 +100,35 @@ exports.getDishPhoto = async (req, res, next) => {
     // Cast error
     if (error instanceof mongoose.CastError) {
       return next(createError(400, "Invalid Dish ID"));
+    }
+
+    next(error);
+  }
+};
+
+exports.searchByCategory = async (req, res, next) => {
+  let { categories } = req.body;
+  let criteria = {};
+
+  try {
+    if (categories.length === 0) {
+      throw createError(404, "No categories specified");
+    }
+
+    criteria = { category: { $in: categories } };
+
+    const result = await Dish.find(criteria)
+      .select("-photo")
+      .populate("category", "_id name");
+
+    res.status(200).json({
+      result
+    });
+  } catch (error) {
+    console.log(error);
+
+    if (error instanceof mongoose.CastError) {
+      return next(createError(400, "Invalid Category ID"));
     }
 
     next(error);
