@@ -11,4 +11,9 @@ const dishSchema = Joi.object({
   category: Joi.string().required()
 });
 
-module.exports = { categorySchema, dishSchema };
+const userSchema = Joi.object({
+  _id: Joi.string().required(),
+  email: Joi.string().email().required()
+});
+
+module.exports = { categorySchema, dishSchema, userSchema };

@@ -7,6 +7,7 @@ require("dotenv").config();
 
 const categoryRoutes = require("./routes/category");
 const dishRoutes = require("./routes/dish");
+const userRoutes = require("./routes/user");
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 
 app.use(PREFIX, categoryRoutes);
 app.use(PREFIX, dishRoutes);
+app.use(PREFIX, userRoutes);
 
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
